@@ -1,0 +1,60 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.leo.myapplication.activity.AnimalFormFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/txt_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Novo Animal"
+            android:layout_marginBottom="20dp"
+            style="@android:style/TextAppearance.DeviceDefault.Large"/>
+        <EditText
+            android:id="@+id/tbx_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:hint="@string/text_tbx_name" />
+
+        <EditText
+            android:id="@+id/tbx_specie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:hint="@string/text_tbx_specie" />
+
+        <EditText
+            android:id="@+id/tbx_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:hint="@string/text_tbx_weight" />
+
+        <Button
+            android:id="@+id/btn_confirm_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_btn_confirm_add"
+            android:textAllCaps="false"
+            android:onClick="btn_save_onClick"/>
+    </LinearLayout>
+
+</FrameLayout>

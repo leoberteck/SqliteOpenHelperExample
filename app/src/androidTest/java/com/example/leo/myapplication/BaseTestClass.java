@@ -1,7 +1,6 @@
 package com.example.leo.myapplication;
 
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.support.test.InstrumentationRegistry;
 
 import com.example.leo.myapplication.database.DatabaseHelper;
@@ -24,7 +23,7 @@ public abstract class BaseTestClass {
 
     @After
     public void clean(){
-        DatabaseHelper.getInstance(context).close();
+        DatabaseHelper.close(context);
         context = null;
     }
 }

@@ -5,14 +5,13 @@ import android.support.test.runner.AndroidJUnit4;
 import com.example.leo.myapplication.database.DatabaseHelper;
 import com.example.leo.myapplication.entity.Animal;
 import com.example.leo.myapplication.interfaces.IAnimalDao;
-import com.example.leo.myapplication.utils.FactoryDao;
+import com.example.leo.myapplication.utils.DependencyCacheHelper;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ public class AnimalDaoTest extends BaseTestClass {
 
     @Test
     public void addTest() throws Exception{
-        IAnimalDao animalDao = FactoryDao.getInstance(IAnimalDao.class, context);
+        IAnimalDao animalDao = DependencyCacheHelper.getInstance(IAnimalDao.class);
 
         Animal newAnimal = new Animal();
         newAnimal.setName("Elephant");
@@ -48,7 +47,7 @@ public class AnimalDaoTest extends BaseTestClass {
 
     @Test
     public void updateTest() throws Exception{
-        IAnimalDao animalDao = FactoryDao.getInstance(IAnimalDao.class, context);
+        IAnimalDao animalDao = DependencyCacheHelper.getInstance(IAnimalDao.class);
 
         Animal newAnimal = new Animal();
         newAnimal.setName("Elephant");
@@ -70,7 +69,7 @@ public class AnimalDaoTest extends BaseTestClass {
 
     @Test
     public void deleteTest() throws Exception{
-        IAnimalDao animalDao = FactoryDao.getInstance(IAnimalDao.class, context);
+        IAnimalDao animalDao = DependencyCacheHelper.getInstance(IAnimalDao.class);
 
         Animal newAnimal = new Animal();
         newAnimal.setName("Elephant");
@@ -88,7 +87,7 @@ public class AnimalDaoTest extends BaseTestClass {
 
     @Test
     public void getAllTest() throws Exception{
-        IAnimalDao animalDao = FactoryDao.getInstance(IAnimalDao.class, context);
+        IAnimalDao animalDao = DependencyCacheHelper.getInstance(IAnimalDao.class);
 
         Animal elephant = new Animal();
         elephant.setName("Elephant");
@@ -112,7 +111,7 @@ public class AnimalDaoTest extends BaseTestClass {
 
     @Test
     public void queryTest() throws Exception{
-        IAnimalDao animalDao = FactoryDao.getInstance(IAnimalDao.class, context);
+        IAnimalDao animalDao = DependencyCacheHelper.getInstance(IAnimalDao.class);
 
         Animal elephant = new Animal();
         elephant.setName("Elephant");

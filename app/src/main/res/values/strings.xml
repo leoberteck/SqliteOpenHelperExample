@@ -1,4 +1,20 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Animal CRUD</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_main2">Animal CRUD</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_btn_show_list">Lista</string>
+    <string name="text_btn_add">Novo</string>
+    <string name="text_btn_edit">Editar</string>
+    <string name="text_btn_remove">Remover</string>
+    <string name="text_tbx_name">Nome</string>
+    <string name="text_tbx_specie">Espécie</string>
+    <string name="text_tbx_weight">Peso</string>
+    <string name="text_btn_confirm_add">Salvar</string>
+    <string name="text_alert_title">Alerta!</string>
+    <string name="error_animal_null">Animal não pode ser nulo</string>
+    <string name="error_animal_name_null">Nome do animal é obrigatório</string>
+    <string name="error_animal_specie_null">Espécie do animal é obrigatória</string>
+    <string name="error_animal_weight_zero">Peso do animal é obrigatório</string>
 </resources>

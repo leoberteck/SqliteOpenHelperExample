@@ -9,11 +9,11 @@ import com.example.leo.myapplication.interfaces.IDao;
 import com.example.leo.myapplication.interfaces.IEntity;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.leo.myapplication.database.DatabaseHelper.getInstance;
+import static com.example.leo.myapplication.database.DatabaseHelper.getReadableDatabase;
+import static com.example.leo.myapplication.database.DatabaseHelper.getWritableDatabase;
 
 /**
  * Created by leo on 24/06/17.
@@ -35,7 +35,7 @@ public abstract class BaseDao<T extends IEntity> implements IDao<T>{
 
     @Override
     public long add(T entity) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase(context);
         ContentValues values = createValues(entity);
         values.remove("id");
         Long count = db.insertOrThrow(getTableName(), null, values);
@@ -44,10 +44,19 @@ public abstract class BaseDao<T extends IEntity> implements IDao<T>{
 
     @Override
     public int update(T entity) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase(context);
         ContentValues values = createValues(entity);
         int count = db.update(getTableName(), values, "id = ?", new String[]{String.valueOf((entity.getId()))});
         return count;
+    }
+
+    @Override
+    public long saveOrUpdate(T entity) {
+        if(entity.getId() == 0){
+            return add(entity);
+        } else {
+            return update(entity);
+        }
     }
 
     @Override
@@ -57,22 +66,24 @@ public abstract class BaseDao<T extends IEntity> implements IDao<T>{
 
     @Override
     public void delete(int id) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase(context);
         db.delete(getTableName(), "id = ?",  new String[] { String.valueOf(id) });
     }
 
     @Override
-    public T getById(int id) throws InstantiationException {
+    public T getById(int id) {
         String query = "select * from " + getTableName() + " where id = " + id;
         T entity = null;
-        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+        SQLiteDatabase db = getReadableDatabase(context);
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.moveToFirst()){
             try {
                 entity = createNewInstanceFromCursor(cursor);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            }finally {
+            } catch (InstantiationException e){
+                e.printStackTrace();
+            } finally {
                 cursor.close();
             }
         }
@@ -80,21 +91,25 @@ public abstract class BaseDao<T extends IEntity> implements IDao<T>{
     }
 
     @Override
-    public List<T> getAll() throws InstantiationException {
+    public List<T> getAll() {
+        List<T> listReturn = new ArrayList<>();
         String query = "select * from " + getTableName();
-        return query(query);
+        listReturn = query(query);
+        return listReturn;
     }
 
     @Override
-    public List<T> query(String query) throws InstantiationException {
+    public List<T> query(String query) {
         List<T> listEntity = new ArrayList<>();
 
-        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+        SQLiteDatabase db = getReadableDatabase(context);
         Cursor cursor = db.rawQuery(query, null);
         try {
             listEntity = serializeCursor(cursor);
-        }catch (IllegalAccessException ex){
+        } catch (IllegalAccessException ex){
             ex.printStackTrace();
+        } catch (InstantiationException e){
+            e.printStackTrace();
         } finally {
             cursor.close();
         }
@@ -104,7 +119,7 @@ public abstract class BaseDao<T extends IEntity> implements IDao<T>{
     @Override
     public int getCount() {
         String query = "select * from " + getTableName();
-        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+        SQLiteDatabase db = getReadableDatabase(context);
         Cursor cursor = db.rawQuery(query, null);
         int count = cursor.getCount();
         cursor.close();
@@ -171,7 +186,6 @@ public abstract class BaseDao<T extends IEntity> implements IDao<T>{
     protected List<T> serializeCursor(Cursor cursor) throws InstantiationException, IllegalAccessException {
         List<T> listEntity = new ArrayList<>();
         if(cursor.moveToFirst()){
-            Field[] listField = tClass.getFields();
             do {
                 listEntity.add(createNewInstanceFromCursor(cursor));
             } while (cursor.moveToNext());
